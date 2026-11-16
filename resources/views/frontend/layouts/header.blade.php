@@ -269,7 +269,7 @@
                 <div class="co-ticker-track">
                     <div class="co-ticker-group">
                         @foreach ($recent_posts as $post)
-                            <a href="{{ route('frontend.post.index', $post->id) }}" class="co-ticker-item">
+                            <a href="{{ route('frontend.news.show', $post->slug) }}" class="co-ticker-item">
                                 {{ $post->post_title }}
                                 <span class="co-ticker-time">
                                     {{ NepaliDateHelper::ago($post->created_at) }}

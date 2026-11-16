@@ -3,7 +3,7 @@
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
 @foreach ($posts as $post)
     <url>
-        <loc>{{ rtrim(route('frontend.post.index', $post->id), '/') . '/' }}</loc>
+        <loc>{{ rtrim(route('frontend.news.show', $post->slug), '/') . '/' }}</loc>
         <news:news>
             <news:publication>
                 <news:name>{{ SettingHelper::get_field('site_title') }}</news:name>

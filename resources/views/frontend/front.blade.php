@@ -5,7 +5,7 @@
         $img = fn($p) => MediaHelper::WsrvService(
             MediaHelper::getImageById($p->postMeta->firstWhere('meta_key', 'featured_image')?->meta_value),
         ) ?? asset('images/noimage.svg');
-        $url = fn($p) => route('frontend.news.show', $p->id);
+        $url = fn($p) => route('frontend.news.show', $p->slug);
         $catUrl = fn($c) => $c ? route('frontend.category.index', $c->slug) : '#';
         $date = fn($p) => NepaliDateHelper::format($p->created_at);
         $author = fn($p) => $p->user?->name ?? 'चासो संवाददाता';

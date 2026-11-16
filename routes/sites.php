@@ -19,7 +19,7 @@ Route::middleware('throttle:60,1')->group(function () {
     Route::post('search', [SearchController::class, 'store'])->name('frontend.search.store');
     Route::get('search/term/{term}', [SearchController::class, 'term'])->name('frontend.search.term');
 });
-Route::get('/news/{id}', [PostController::class, 'newsIndex'])->name('frontend.news.show');
+Route::get('/news/{slug}', [PostController::class, 'newsIndex'])->name('frontend.news.show');
 
 // photo feature
 Route::get('photo-feature', [PhotoFeatureController::class, 'index'])->name('frontend.photo_feature.index');

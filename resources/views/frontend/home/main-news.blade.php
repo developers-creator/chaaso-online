@@ -10,7 +10,7 @@
                     <article class="co-lead">
                         <span class="co-tag co-tag-red">मुख्य समाचार</span>
                         <{{ $firstLoop }} class="co-lead-title">
-                            <a href="{{ route('frontend.news.show', $news->id) }}">{{ $news->post_title }}</a>
+                            <a href="{{ route('frontend.news.show', $news->slug) }}">{{ $news->post_title }}</a>
                             </{{ $firstLoop }}>
                             <div class="co-meta co-meta-center">
                                 <span class="co-meta-author"><i class="bi bi-person"></i>
@@ -21,7 +21,7 @@
                     </article>
                     @if ($news->show_banner_image == 1)
                         @if ($featuredImage)
-                            <a href="{{ route('frontend.news.show', $news->id) }}" class="co-lead-media co-img">
+                            <a href="{{ route('frontend.news.show', $news->slug) }}" class="co-lead-media co-img">
                                 <img @unless ($loop->first) loading="lazy" @endunless
                                     src="{{ $featuredImage }}" alt="{{ $news->post_title }}" />
                             </a>

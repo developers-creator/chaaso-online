@@ -29,9 +29,10 @@ class PostDataTable extends Component
         $this->postType = $postType;
     }
 
-    public function delete(Post $post)
+    public function delete($id)
     {
-        $post->delete();
+        // the view passes the numeric id; Post's route key is ulid, so implicit binding would 404
+        Post::where('post_type', $this->postType)->findOrFail($id)->delete();
         $this->dispatch('success', [ 'message' => 'Post deleted.' ]);
     }
 

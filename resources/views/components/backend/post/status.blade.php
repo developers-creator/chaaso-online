@@ -67,11 +67,11 @@
 
                 @if ($status == 'publish' && $siteURL && $route)
                     @php
-                        // pages are served by slug (front page at site root), posts by id
+                        // pages and posts are served by slug (front page at site root)
                         if ($post->post_type == 'page') {
                             $viewPath = $post->id == SettingHelper::get_home_id() ? '' : $route . $post->slug;
                         } else {
-                            $viewPath = $route . $post->id;
+                            $viewPath = $route . $post->slug;
                         }
                     @endphp
                     <div class="d-grid mt-2">

@@ -281,7 +281,7 @@
                     @foreach($latestNews as $item)
                     @php
                         $item_image = MediaHelper::WsrvService(MediaHelper::getImageById($item->postMeta->firstWhere('meta_key', 'featured_image')?->meta_value));
-                        $item_url = route('frontend.news.show', $item->id);
+                        $item_url = route('frontend.news.show', $item->slug);
                     @endphp
                     <article class="co-mini">
                         @if($item_image)
@@ -329,7 +329,7 @@
           @foreach($relatedPosts->take(4) as $item)
           @php
               $item_image = MediaHelper::WsrvService(MediaHelper::getImageById($item->postMeta->firstWhere('meta_key', 'featured_image')?->meta_value));
-              $item_url = route('frontend.news.show', $item->id);
+              $item_url = route('frontend.news.show', $item->slug);
           @endphp
           <article class="co-card co-cat-card">
             @if($item_image)

@@ -93,10 +93,8 @@ class PostController extends Controller
 
             $this->postRepository->storeMetaData($post, $request);
 
-            // update slug
-            // $post->update([
-            //     'slug' => date('Y/m/').$post->id,
-            // ]);
+            // news posts use their id as the slug
+            $post->update(['slug' => $post->id]);
 
             session()->flash('success', 'Post Created.');
 
@@ -110,9 +108,9 @@ class PostController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit($slug)
     {
-        $post = Post::with(['categories', 'lastUpdatedBy'])->where('post_type', $this->postType)->where('ulid', $id)->firstOrFail();
+        $post = Post::with(['categories', 'lastUpdatedBy'])->where('post_type', $this->postType)->where('ulid', $slug)->firstOrFail();
 
         $categories = $this->postRepository->getPostByCategory('category')->orderBy('name', 'ASC')->get();
         $authors = $this->postRepository->getPostByCategory('author')->orderBy('name', 'ASC')->get();
@@ -159,10 +157,10 @@ class PostController extends Controller
 
                 $this->postRepository->storeMetaData($post, $request);
 
-                // update slug
-                // $post->update([
-                //     'slug' => $post->created_at->format('Y/m/').$post->id,
-                // ]);
+                // news posts use their id as the slug (replaces old text slugs)
+                if ( $post->slug !== (string) $post->id ) {
+                    $post->update(['slug' => $post->id]);
+                }
 
                 session()->flash('success', 'Post Updated.');
                 return redirect()->back();

@@ -61,7 +61,7 @@
               @forelse ($posts as $post)
                 @php
                     $item_image = MediaHelper::WsrvService(MediaHelper::getImageById($post->postMeta->firstWhere('meta_key', 'featured_image')?->meta_value));
-                    $item_url = route('frontend.news.show', $post->id);
+                    $item_url = route('frontend.news.show', $post->slug);
                     $item_cat = $post->categories->where('type', 'category')->first();
                 @endphp
                 <article class="co-card co-cat-card">

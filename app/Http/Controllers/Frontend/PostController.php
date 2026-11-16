@@ -100,9 +100,18 @@ class PostController extends Controller
             ->paginate(12);
     }
 
-    public function newsIndex($id)
+    public function newsIndex($slug)
     {
-        $post = Post::where([ 'id' => $id, 'post_type' => 'post' ])->first();
+        $post = Post::where([ 'slug' => $slug, 'post_type' => 'post' ])->first();
+
+        // old /news/{id} links: send them to the slug url
+        if ( empty($post) && ctype_digit((string) $slug) ) {
+            $legacy = Post::where([ 'id' => $slug, 'post_type' => 'post' ])->first();
+
+            if ( $legacy ) {
+                return redirect()->route('frontend.news.show', $legacy->slug, 301);
+            }
+        }
 
         if ( !empty($post) ) {
 

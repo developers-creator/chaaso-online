@@ -96,7 +96,7 @@
                                     @if ($p->post_status == 'publish' && $siteURL)
                                         <span class="view">
                                             |
-                                            <a href="{{ route('frontend.news.show', $p->id) }}" target="_blank"
+                                            <a href="{{ route('frontend.news.show', $p->slug) }}" target="_blank"
                                                 class="text-secondary">View</a>
                                         </span>
                                     @endif

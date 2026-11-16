@@ -35,7 +35,7 @@
                 $lead_image = MediaHelper::WsrvService(
                     MediaHelper::getImageById($lead->postMeta->firstWhere('meta_key', 'featured_image')?->meta_value),
                 );
-                $lead_url = route('frontend.news.show', $lead->id);
+                $lead_url = route('frontend.news.show', $lead->slug);
                 $lead_excerpt =
                     $lead->post_content ?: $lead->postMeta->firstWhere('meta_key', 'short_desc')?->meta_value;
             @endphp
@@ -72,7 +72,7 @@
                                             $post->postMeta->firstWhere('meta_key', 'featured_image')?->meta_value,
                                         ),
                                     );
-                                    $item_url = route('frontend.news.show', $post->id);
+                                    $item_url = route('frontend.news.show', $post->slug);
                                 @endphp
                                 <article class="co-card">
                                     @if ($item_image)
@@ -131,7 +131,7 @@
                                             $post->postMeta->firstWhere('meta_key', 'featured_image')?->meta_value,
                                         ),
                                     );
-                                    $item_url = route('frontend.news.show', $post->id);
+                                    $item_url = route('frontend.news.show', $post->slug);
                                 @endphp
                                 <article class="co-card co-cat-card">
                                     @if ($item_image)

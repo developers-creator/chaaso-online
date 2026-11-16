@@ -9,7 +9,7 @@
     @if ($posts->isNotEmpty())
         @foreach ($posts as $post)
             <url>
-                <loc>{{ rtrim(route('frontend.post.index', $post->slug), '/') . '/' }}</loc>
+                <loc>{{ rtrim(route('frontend.news.show', $post->slug), '/') . '/' }}</loc>
                 <lastmod>{{ $post->updated_at->toIso8601String() }}</lastmod>
                 <priority>0.8</priority>
             </url>

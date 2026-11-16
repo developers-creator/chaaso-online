@@ -105,7 +105,7 @@ class FrontMenuRepository
 
         if ( in_array($object, ['post', 'news']) ) {
             $post = $posts->get($objectId);
-            return $post ? route('frontend.news.show', $post->id) : null;
+            return $post ? route('frontend.news.show', $post->slug) : null;
         }
 
         return null;
