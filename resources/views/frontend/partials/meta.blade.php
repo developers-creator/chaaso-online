@@ -35,9 +35,10 @@
 <meta property="og:image:secure_url" content="{{ $image }}" />
 <meta property="og:image:alt" content="{{ $alt }}" />
 <meta property="og:image:type" content="{{ $type }}" />
-@if ( ( $favicon = SettingHelper::get_field('site_favicon') ) && ( $siteFavicon = MediaHelper::getModel()->where('id', $favicon)->first() ) )
-<link rel="icon" href="{{ asset('storage/'. $siteFavicon->file_name ) }}" type="{{ $siteFavicon->type }}">
-<link rel="apple-touch-icon" href="{{ asset('storage/'. $siteFavicon->file_name ) }}">
-<link rel="apple-touch-icon-precomposed" href="{{ asset('storage/'. $siteFavicon->file_name ) }}">
-<link rel="shortcut icon" href="{{ asset('storage/'. $siteFavicon->file_name ) }}" type="{{ $siteFavicon->type }}">
+@if (($favicon = SettingHelper::get_field('site_favicon')) && ($siteFavicon = MediaHelper::getImageById($favicon)))
+@php $faviconUrl = MediaHelper::WsrvService($siteFavicon); @endphp
+<link rel="icon" href="{{ $faviconUrl }}" type="{{ $siteFavicon->type }}">
+<link rel="apple-touch-icon" href="{{ $faviconUrl }}">
+<link rel="apple-touch-icon-precomposed" href="{{ $faviconUrl }}">
+<link rel="shortcut icon" href="{{ $faviconUrl }}" type="{{ $siteFavicon->type }}">
 @endif

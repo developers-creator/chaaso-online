@@ -50,9 +50,9 @@ class FrontController extends Controller
             $allCategoryIds = array_values(array_unique(array_filter($sectionCatIds)));
 
             // load all selected categories with their children in one query
-            $categories = empty($allCategoryIds) ? collect() : Category::select('id', 'name', 'slug', 'parent', 'menu_order', 'type')
+            $categories = empty($allCategoryIds) ? collect() : Category::select('id', 'name', 'slug', 'parent', 'menu_order', 'type', 'nepali_title')
                 ->with([
-                    'children' => fn($q) => $q->select('id', 'name', 'slug', 'parent', 'menu_order', 'type')->orderBy('menu_order', 'ASC'),
+                    'children' => fn($q) => $q->select('id', 'name', 'slug', 'parent', 'menu_order', 'type', 'nepali_title')->orderBy('menu_order', 'ASC'),
                     'categoryMeta',
                 ])
                 ->whereIn('id', $allCategoryIds)
@@ -126,26 +126,26 @@ class FrontController extends Controller
                 ->get();
 
             // 3 most recently enabled "Show On Front" posts for the मुख्य समाचार section, shown oldest first
-            $frontPosts = Post::select('id', 'user_id', 'post_title', 'slug', 'post_excerpt', 'created_at')
-                ->where('post_type', 'post')
-                ->where('post_status', 'publish')
-                ->whereHas('postMeta', fn($q) => $q->where('meta_key', 'show_front')->where('meta_value', 1))
-                ->with([
-                    'authors:id,name',
-                    'postMeta',
-                    'categories:id,name,slug',
-                ])
-                ->orderByDesc(
-                    PostMeta::select('meta_value')
-                        ->whereColumn('post_metas.post_id', 'posts.id')
-                        ->where('meta_key', 'show_front_at')
-                        ->limit(1)
-                )
-                ->latest()
-                ->take(3)
-                ->get()
-                ->reverse()
-                ->values();
+            // $frontPosts = Post::select('id', 'user_id', 'post_title', 'slug', 'post_excerpt', 'created_at')
+            //     ->where('post_type', 'post')
+            //     ->where('post_status', 'publish')
+            //     ->whereHas('postMeta', fn($q) => $q->where('meta_key', 'show_front')->where('meta_value', 1))
+            //     ->with([
+            //         'authors:id,name',
+            //         'postMeta',
+            //         'categories:id,name,slug',
+            //     ])
+            //     ->orderByDesc(
+            //         PostMeta::select('meta_value')
+            //             ->whereColumn('post_metas.post_id', 'posts.id')
+            //             ->where('meta_key', 'show_front_at')
+            //             ->limit(1)
+            //     )
+            //     ->latest()
+            //     ->take(3)
+            //     ->get()
+            //     ->reverse()
+            //     ->values();
 
             // latest photo features for the फोटो फिचर carousel
             $photoFeatures = Post::select('id', 'user_id', 'post_title', 'slug', 'created_at')
@@ -160,19 +160,28 @@ class FrontController extends Controller
                 'post' => $post,
                 'postMeta' => $postMeta,
                 'recent_posts' => $recentPosts,
-                'front_posts' => $frontPosts,
+                // 'front_posts' => $frontPosts,
                 'sections' => $sectionData,
                 'provinces' => $provinces,
                 'photoFeatures' => $photoFeatures,
             ];
         });
 
+        $showOnFrontNews = Post::with(['user:id,name', 'postMeta', 'authors:id,name,slug'])
+        ->select(['id', 'user_id', 'post_title', 'slug', 'post_excerpt', 'created_at', 'show_banner_image'])
+        ->PostType('post')
+        ->PostStatus('publish')
+        ->where('show_on_front', 1)
+        ->latest()
+        ->take(3)
+        ->get();
+
         // e.g. rajniti_cat => $rajniti_cat (Category|null), $rajniti_posts (Collection)
         $viewData = [
             'post' => $cached['post'],
             'postMeta' => $cached['postMeta'],
             'recent_posts' => $cached['recent_posts'],
-            'front_posts' => $cached['front_posts'] ?? collect(),
+            // 'front_posts' => $cached['front_posts'] ?? collect(),
             'provinces' => $cached['provinces'] ?? collect(),
             'photoFeatures' => $cached['photoFeatures'] ?? collect(),
         ];
@@ -182,6 +191,8 @@ class FrontController extends Controller
             $viewData["{$prefix}_posts"] = $cached['sections'][$key]?->posts ?? collect();
         }
 
-        return view('frontend.front', $viewData);
+        return view('frontend.front', [
+            'showOnFrontNews' => $showOnFrontNews ?? collect(),
+        ], $viewData);
     }
 }

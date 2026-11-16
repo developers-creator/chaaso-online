@@ -20,9 +20,9 @@ class Category extends Model
     // public $timestamps = false;
 
     // province categories (in tab order) shown on the home page and in the search overlay
-    public const PROVINCE_SLUGS = ['koshi', 'madesh', 'bagmati', 'gandaki', 'lumbini', 'karnali', 'sudurpashchim'];
+    public const PROVINCE_SLUGS = ['koshi', 'madhesh', 'bagmati', 'gandaki', 'lumbini', 'karnali', 'sudurpaschim'];
 
-    protected $fillable = ['user_id', 'name', 'slug', 'type', 'description', 'parent', 'parent_id_backup', 'menu_order', 'last_updated_by'];
+    protected $fillable = ['user_id', 'name', 'slug', 'type', 'description', 'parent', 'parent_id_backup', 'menu_order', 'last_updated_by', 'old_id', 'nepali_title', 'category_code', 'featured_status'];
 
     /**
      * Get the columns that should receive a unique identifier.

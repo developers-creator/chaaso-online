@@ -33,9 +33,9 @@
                 value="{{ isset($settings['working_hour']) ? $settings['working_hour'] : '' }}" />
         </div>
         <div class="col-4">
-            <label for="resgitration_number" class="form-label">Registration Number</label>
-            <input type="text" class="form-control" id="resgitration_number" name="resgitration_number"
-                value="{{ isset($settings['resgitration_number']) ? $settings['resgitration_number'] : '' }}" />
+            <label for="registration_number" class="form-label">Registration Number</label>
+            <input type="text" class="form-control" id="registration_number" name="registration_number"
+                value="{{ isset($settings['registration_number']) ? $settings['registration_number'] : '' }}" />
         </div>
     </div>
     <hr />

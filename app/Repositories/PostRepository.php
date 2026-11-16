@@ -77,6 +77,9 @@ class PostRepository
                 'comment_status' => $request->comment_status ?? 'open',
                 'menu_order' => $request->menu_order ?? 0,
                 'post_password' => $request->post_password ?? null,
+                'show_banner_image' => $request->boolean('show_banner'),
+                'show_on_front' => $request->boolean('show_front'),
+                'use_video' => $request->boolean('use_video'),
             ]);
 
             return $post;
@@ -92,19 +95,16 @@ class PostRepository
         $metaDatas['seo_description'] = isset($request->seo_description) ? $request->seo_description : NULL;
         $metaDatas['page_keywords'] = isset($request->page_keywords) ? $request->page_keywords : NULL;
         $metaDatas['featured_image'] = isset($request->featured_image) ? $request->featured_image : NULL;
-        $metaDatas['show_banner'] = isset($request->show_banner) ? $request->show_banner : 0;
-        $metaDatas['show_front'] = isset($request->show_front) ? $request->show_front : 0;
-        $metaDatas['use_video'] = isset($request->use_video) ? $request->use_video : 0;
         // $metaDatas['is_breaking_news'] = isset($request->is_breaking_news) ? $request->is_breaking_news : 0;
         $metaDatas['youtube_video_id'] = isset($request->youtube_video_id) ? $request->youtube_video_id : NULL;
         $metaDatas['summary'] = isset($request->summary) ? $request->summary : NULL;
         $metaDatas['short_desc'] = isset($request->short_desc) ? $request->short_desc : NULL;
 
         // remember when show_front was switched on, so the home page shows the most recently enabled posts
-        $wasFront = $payload->postMeta()->where('meta_key', 'show_front')->value('meta_value') == 1;
-        if ($metaDatas['show_front'] != 1) {
+        $frontAt = $payload->postMeta()->where('meta_key', 'show_front_at')->value('meta_value');
+        if (!$payload->show_on_front) {
             $metaDatas['show_front_at'] = NULL;
-        } elseif (!$wasFront) {
+        } elseif (empty($frontAt)) {
             $metaDatas['show_front_at'] = now()->toDateTimeString();
         }
 
@@ -154,6 +154,9 @@ class PostRepository
                 'comment_status' => $request->comment_status ?? 'open',
                 'menu_order' => isset($request->menu_order) ? $request->menu_order : 0,
                 'post_password' => $request->post_password ?? null,
+                'show_banner_image' => $request->boolean('show_banner'),
+                'show_on_front' => $request->boolean('show_front'),
+                'use_video' => $request->boolean('use_video'),
             ]);
 
             if ($status) {

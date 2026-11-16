@@ -23,7 +23,7 @@ class Post extends Model
 {
     use HasUlids, HasFactory, SoftDeletes;
 
-    protected $fillable = ['user_id', 'post_title', 'slug', 'post_content', 'post_excerpt', 'post_status', 'post_parent', 'post_type', 'comment_status', 'menu_order', 'post_password', 'last_updated_by'];
+    protected $fillable = ['user_id', 'post_title', 'slug', 'post_content', 'post_excerpt', 'post_status', 'post_parent', 'post_type', 'comment_status', 'menu_order', 'post_password', 'last_updated_by', 'old_id', 'tag_line', 'second_heading', 'trending_count', 'show_banner_image', 'show_on_front', 'use_video'];
 
     /**
      * Get the columns that should receive a unique identifier.
@@ -78,6 +78,11 @@ class Post extends Model
     public function authors()
     {
         return $this->categories()->where('type', 'author');
+    }
+    
+    public function getAuthorAttribute()
+    {
+        return $this->authors->first();
     }
 
     public function postMeta()

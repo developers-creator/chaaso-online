@@ -5,6 +5,6 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <meta name="app-url" content="{{ url('/') }}">
 <meta name="file-base-url" content="{{ url('/storage/') }}">
-@if ( ( $favicon = SettingHelper::get_field('site_favicon') ) && ( $siteFavicon = MediaHelper::getModel()->where('id', $favicon)->first() ) )
-<link rel="shortcut icon" href="{{ asset('storage/'. $siteFavicon->file_name ) }}"">
+@if (($favicon = SettingHelper::get_field('site_favicon')) && ($siteFavicon = MediaHelper::getImageById($favicon)))
+<link rel="shortcut icon" href="{{ MediaHelper::WsrvService($siteFavicon) }}" type="{{ $siteFavicon->type }}">
 @endif

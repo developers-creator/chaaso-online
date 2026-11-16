@@ -67,7 +67,7 @@
                                     <div class="form-check form-switch mb-0">
                                         <input type="checkbox" class="form-check-input" id="show_banner"
                                             name="show_banner" value="1"
-                                            {{ isset($metaDatas['show_banner']) && $metaDatas['show_banner'] == 1 ? 'checked' : '' }}
+                                            @checked(isset($post) && $post->show_banner_image)
                                             style="width: 3rem; height: 1.5rem; cursor: pointer;" />
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                                     <div class="form-check form-switch mb-0">
                                         <input type="checkbox" class="form-check-input" id="show_front"
                                             name="show_front" value="1"
-                                            {{ isset($metaDatas['show_front']) && $metaDatas['show_front'] == 1 ? 'checked' : '' }}
+                                            @checked(isset($post) && $post->show_on_front)
                                             style="width: 3rem; height: 1.5rem; cursor: pointer;" />
                                     </div>
                                 </div>
@@ -100,14 +100,14 @@
                                     <div class="form-check form-switch mb-0">
                                         <input type="checkbox" class="form-check-input" id="use_video"
                                             name="use_video" value="1"
-                                            {{ isset($metaDatas['use_video']) && $metaDatas['use_video'] == 1 ? 'checked' : '' }}
+                                            @checked(isset($post) && $post->use_video)
                                             style="width: 3rem; height: 1.5rem; cursor: pointer;" />
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-md-6" id="youtube_video_wrapper"
-                                style="{{ isset($metaDatas['use_video']) && $metaDatas['use_video'] == 1 ? '' : 'display: none;' }}">
+                                style="{{ isset($post) && $post->use_video ? '' : 'display: none;' }}">
                                 <div class="mb-3">
                                     <label class="form-label" for="youtube_video_id">Youtube Video ID</label>
                                     <input name="youtube_video_id" type="text" class="form-control"
