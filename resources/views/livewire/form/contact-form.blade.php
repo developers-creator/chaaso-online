@@ -14,6 +14,7 @@ new class extends Component {
     public $phone = '';
     public $msgtitle = '';
     public $message = '';
+    public $consent = false;
     public $successMessage = '';
     public $errorMessage = '';
     public $messageType = ''; // 'success' or 'error'
@@ -23,22 +24,23 @@ new class extends Component {
         'contactsubject' => 'required|string|max:255',
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255',
-        'phone' => 'required|string|max:20',
+        'phone' => 'nullable|string|max:20',
         'msgtitle' => 'required|string|max:255',
-        'message' => 'required|string|max:2000',
+        'message' => 'required|string|max:1000',
+        'consent' => 'accepted',
     ];
 
     protected $messages = [
-        'contactsubject.required' => 'Please enter a subject for your message.',
+        'contactsubject.required' => 'Please select a subject.',
         'contactsubject.max' => 'The subject cannot exceed 255 characters.',
         'name.required' => 'Please enter your full name.',
         'email.required' => 'Please enter your email address.',
         'email.email' => 'Please enter a valid email address.',
-        'phone.required' => 'Please enter your phone number.',
         'msgtitle.required' => 'Please enter a message title.',
         'msgtitle.max' => 'The message title cannot exceed 255 characters.',
         'message.required' => 'Please enter your message.',
-        'message.max' => 'Your message cannot exceed 2000 characters.',
+        'message.max' => 'Your message cannot exceed 1000 characters.',
+        'consent.accepted' => 'Please accept the privacy policy.',
     ];
 
     public function submit()
@@ -48,7 +50,7 @@ new class extends Component {
         $contactData = [
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'phone' => $validated['phone'],
+            'phone' => $validated['phone'] ?? '',
             'msgtitle' => $validated['msgtitle'],
             'message' => $validated['message'],
             'contactsubject' => $validated['contactsubject'],
@@ -83,11 +85,8 @@ new class extends Component {
         $this->errorMessage = '';
         $this->showMessage = true;
 
-        $this->name = '';
-        $this->email = '';
-        $this->phone = '';
-        $this->travelers = '';
-        $this->message = '';
+        $this->reset(['contactsubject', 'name', 'email', 'phone', 'msgtitle', 'message', 'consent']);
+        $this->resetValidation();
     }
 };
 ?>          
@@ -105,11 +104,14 @@ new class extends Component {
               <p><span class="co-ct-req">*</span> चिन्ह भएका विवरण अनिवार्य छन्।</p>
             </div>
 
-            <fieldset class="co-ct-topics" wire:model="contactsubject">
-              <legend>विषय</legend>
+            <fieldset class="co-ct-topics">
+              <legend>विषय <b class="co-ct-req">*</b></legend>
               @foreach ($contactsubjects as $subject)
-              <label><input type="radio" name="topic" value="{{ $subject }}" {{ $contactsubject === $subject ? 'checked' : '' }}><span><i class="bi bi-chat-dots"></i> {{ $subject }}</span></label>
+              <label><input type="radio" name="topic" value="{{ $subject }}" wire:model="contactsubject"><span><i class="bi bi-chat-dots"></i> {{ $subject }}</span></label>
               @endforeach
+              @error('contactsubject')
+                  <div class="text-danger w-100" style="font-size: 14px;">{{ $message }}</div>
+              @enderror
             </fieldset>
 
             <div class="co-ct-row">
@@ -162,9 +164,12 @@ new class extends Component {
             </div>
 
             <label class="co-ct-check">
-              <input type="checkbox" name="consent" required>
+              <input type="checkbox" name="consent" wire:model="consent" required>
               <span>मेरो विवरण यो सन्देशको जवाफ दिन मात्र प्रयोग गर्न सहमत छु। <a href="#">प्राइवेसी पोलिसी</a></span>
             </label>
+            @error('consent')
+                <div class="text-danger" style="font-size: 14px;">{{ $message }}</div>
+            @enderror
 
             <div class="co-ct-submit">
               <button type="submit" class="co-btn"><i class="bi bi-send"></i> सन्देश पठाउनुहोस्</button>

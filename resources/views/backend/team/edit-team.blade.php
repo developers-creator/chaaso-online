@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <form method="POST" action="{{ route('backend.team.update', $post->id) }}">
+        <form method="POST" action="{{ route('backend.team.update', $post->ulid) }}">
             @csrf
             <div class="row">
                 <div class="col-md-9">
@@ -34,7 +34,7 @@
                     <x-backend.post.status :post="$post" route="" button="Update" />
 
                     {{-- featured image --}}
-                    <x-backend.post.featured-image :metaDatas="$metaDatas" />
+                    <x-backend.post.featured-image :metaDatas="$metaDatas" post-type="team" />
                     {{-- departments --}}
                     <x-backend.post.category title="Departments" name="departments[]" type="multiple"
                         :categories="$departments" :post="$post" />

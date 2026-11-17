@@ -19,6 +19,7 @@ use App\Http\Requests\Post\PostUpdateRequest;
 class PostController extends Controller
 {
     private $postType;
+    private $templateType;
     private $postRepository;
     private $categoryPostRepository;
     protected $service;
@@ -31,6 +32,7 @@ class PostController extends Controller
         $this->middleware('permission:delete_post', ['only' => 'destroy']);
 
         $this->postType = 'post';
+        $this->templateType = 'post';
         $this->postRepository = $postRepository;
         $this->categoryPostRepository = $categoryPostRepository;
         $this->service = $service;
@@ -39,10 +41,12 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $status = $request->get('status', 'all');
+        $templateType = $request->route()->parameter('templateType');
 
         return view('backend.posts.index-post', [
             'status' => $status,
             'postType' => $this->postType,
+            'templateType' => $this->templateType,
         ]);
     }
 

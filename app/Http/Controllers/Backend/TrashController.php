@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\PostRepository;
@@ -41,7 +42,10 @@ class TrashController extends Controller
 
     public function restore($id)
     {
-        $this->postRepository->restorePost($id);
+        // the trash list links by ulid, the repository works with the numeric id
+        $post = Post::onlyTrashed()->where('ulid', $id)->firstOrFail();
+
+        $this->postRepository->restorePost($post->id);
 
         session()->flash('success', 'Post Restored.');
 
@@ -57,7 +61,9 @@ class TrashController extends Controller
 
     public function permanentlyDelete($id)
     {
-        $this->postRepository->permanentDelete($id);
+        $post = Post::onlyTrashed()->where('ulid', $id)->firstOrFail();
+
+        $this->postRepository->permanentDelete($post->id);
 
         session()->flash('success', 'Post Permanently Deleted.');
 

@@ -6,6 +6,12 @@
                     <span class="text-danger">*</span>
                 @endif
             </label>
+            <br>
+            <span>
+                (Recommended Size :
+                <span id="featured-image-size" data-sizes='@json($sizes)'>{{ $recommendedSize }}</span>
+                px)
+            </span>            
             <div class="input-group open-media-manager" data-bs-toggle="modal" data-bs-target="#exampleModal"
                 style="cursor: pointer;" data-field="featured_image" data-select="single">
                 <div class="input-group-prepend">

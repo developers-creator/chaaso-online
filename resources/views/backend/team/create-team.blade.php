@@ -35,7 +35,7 @@
                     <x-backend.post.status button="Submit" />
 
                     {{-- feature image --}}
-                    <x-backend.post.featured-image />
+                    <x-backend.post.featured-image post-type="team" />
                     {{-- departments --}}
                     <x-backend.post.category title="Departments" name="departments[]" type="multiple"
                         :categories="$departments" />

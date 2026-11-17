@@ -108,7 +108,7 @@ class TeamController extends Controller
 
             session()->flash('success', 'Team Created.');
 
-            return redirect()->route('backend.team.edit', $post->id);
+            return redirect()->route('backend.team.edit', $post->ulid);
 
         } catch (\Exception $e) {
 
@@ -121,7 +121,7 @@ class TeamController extends Controller
 
     public function edit($id)
     {
-        $post = Post::where('post_type', $this->postType)->findOrFail($id);
+        $post = Post::where('post_type', $this->postType)->where('ulid', $id)->firstOrFail();
         $departments = Category::where('type', 'department')->orderBy('name', 'ASC')->get();
         $metaDatas = $this->postRepository->getMetaDatas($post);
 

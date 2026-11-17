@@ -85,6 +85,10 @@
             e.preventDefault();
             const selectedTemplate = $(this).val();
 
+            const $size = $('#featured-image-size');
+            const sizes = $size.data('sizes') || {};
+            $size.text(sizes[selectedTemplate] || sizes['default']);
+
             $.ajax({
                 url: '{{ route('backend.get.template') }}',
                 data: {

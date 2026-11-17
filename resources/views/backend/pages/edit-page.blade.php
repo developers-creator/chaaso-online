@@ -42,7 +42,8 @@
                         </div>
                         <div class="col-12">
                             {{-- featured image --}}
-                            <x-backend.post.featured-image :metaDatas="$metaDatas" />
+                            <x-backend.post.featured-image :metaDatas="$metaDatas"
+                                :template-type="$metaDatas['page_template'] ?? 'default'" />
                         </div>
                         <div class="col-12">
                             @php
@@ -108,6 +109,10 @@
             e.preventDefault();
             const selectedTemplate = $(this).val();
             const id = $('#pageID').val();
+
+            const $size = $('#featured-image-size');
+            const sizes = $size.data('sizes') || {};
+            $size.text(sizes[selectedTemplate] || sizes['default']);
 
             $.ajax({
                 url: '{{ route('backend.get.editTemplate') }}',

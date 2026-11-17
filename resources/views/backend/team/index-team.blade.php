@@ -88,13 +88,13 @@
                                                 <br />
                                                 <div class="row-action">
                                                     <span class="edit">
-                                                        <a href="{{ route('backend.team.edit', $post->id) }}"
+                                                        <a href="{{ route('backend.team.edit', $post->ulid) }}"
                                                             class="text-primary">Edit</a>
                                                     </span>
                                                     @if ($homeId != $post->id)
                                                         <span class="delete">
                                                             |
-                                                            <a href="{{ route('backend.post.delete', $post->id) }}"
+                                                            <a href="{{ route('backend.post.delete', $post->ulid) }}"
                                                                 onclick="return confirm('Are you sure you want to delete?');"
                                                                 class="text-danger">Delete</a>
                                                         </span>

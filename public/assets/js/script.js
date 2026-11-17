@@ -490,7 +490,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (wrap) wrap.classList.toggle("is-invalid", !ok);
       return ok;
     };
-    const required = contactForm.querySelectorAll("[required]");
+    // Livewire-driven form: validation/submit/reset are handled server-side.
+    const isLivewire = contactForm.hasAttribute("wire:submit");
+    const required = isLivewire ? [] : contactForm.querySelectorAll("[required]");
     if (msg && count) {
       const update = () => { count.textContent = msg.value.length + " / " + msg.maxLength; };
       msg.addEventListener("input", update);
@@ -502,7 +504,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (el.closest(".is-invalid")) check(el);
       });
     });
-    contactForm.addEventListener("submit", (e) => {
+    if (!isLivewire) contactForm.addEventListener("submit", (e) => {
       e.preventDefault();
       let first = null;
       required.forEach((el) => {
